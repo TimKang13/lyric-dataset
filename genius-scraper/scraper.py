@@ -39,11 +39,14 @@ def get_song_urls(artist_id):
 		response.encoding = 'utf-8'
 		json = response.json()
 
-		for song in json["response"]["songs"]:
+		try:
+			for song in json["response"]["songs"]:
 
-			if song["primary_artist"]["id"]==artist_id:
+				if song["primary_artist"]["id"]==artist_id:
 
-				urls.append(song["path"])
+					urls.append(song["path"])
+		except:
+			return -1
 		
 		if json["response"]["next_page"]==None:
 			end_of_pages=True
@@ -76,8 +79,9 @@ def get_lyrics(song_urls):
 			else:
 				print("The desired div was not found.")
 				
-		if (len(lyrics)/2)%100==0:
-			print(int(len(lyrics)/2), "/", len(song_urls), "lyrics processed")
+		if len(lyrics) >= 100:
+			print("100 songs scraped")
+			break
 	
 	return lyrics 
 
@@ -89,31 +93,36 @@ if __name__ == '__main__':
 		print("You must pass a parameter for artist name e.g. \"The Beatles\"")
 		sys.exit(0)
 	
-	for artist_name in sys.argv[1:]:
+	for f in sys.argv[1:]:
+		with open(f, "r") as file:
+			for line in file:
+				artist_name = line.strip() # Remove leading/trailing whitespace
+				# api key and authorisation
+				base_url = "http://api.genius.com"
+				#api_key = config.access_token
+				api_key = "VZWLZcTi0Sm-oU144kwvBucqs7L6Jqk_N7MoeUU54nDArQWafEoFYgNSOISWDQhm"
+				auth_string = 'Bearer ' + api_key
+				headers = {'Authorization': auth_string}
 
-		# api key and authorisation
-		base_url = "http://api.genius.com"
-		#api_key = config.access_token
-		api_key = "VZWLZcTi0Sm-oU144kwvBucqs7L6Jqk_N7MoeUU54nDArQWafEoFYgNSOISWDQhm"
-		auth_string = 'Bearer ' + api_key
-		headers = {'Authorization': auth_string}
+				# get lyrics
+				artist_id = get_artist_id(artist_name)
+				if artist_name == -1:
+					continue
+				song_urls = get_song_urls(artist_id)
+				if song_urls == -1:
+					continue
+				lyrics = get_lyrics(song_urls)
+				print(len(lyrics))
+				filename = artist_name.replace(" ", "_") + ".csv"
 
-		# get lyrics
-		artist_id = get_artist_id(artist_name)
-		if artist_name == -1:
-			continue
-		song_urls = get_song_urls(artist_id)
-		lyrics = get_lyrics(song_urls)
-		print(len(lyrics))
-		filename = artist_name.replace(" ", "_") + ".csv"
-
-		with open(filename, mode='w', newline='', encoding='utf-8') as file:
-			writer = csv.writer(file)
+				with open(filename, mode='w', newline='', encoding='utf-8') as file:
+					writer = csv.writer(file)
+				
+				# Iterate over the array of strings
+					for index, string in enumerate(lyrics, start=1):
+					# Write each string in a new row. csv.writer expects an iterable for each row,
+					# so we wrap the string in a list to make it a single-column row.
+						writer.writerow([index, artist_name, string])
 		
-		# Iterate over the array of strings
-			for index, string in enumerate(lyrics, start=1):
-			# Write each string in a new row. csv.writer expects an iterable for each row,
-			# so we wrap the string in a list to make it a single-column row.
-				writer.writerow([index, artist_name, string])
 
 
