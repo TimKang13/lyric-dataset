@@ -34,9 +34,7 @@ Around 300 input tokens per lyric annotation request.
 ## Usage 
 
 Fine tuning llm models for
-Song classification
-Based on theme, mood, style
-Lyrics Generation
-With parameters on these theme, mood, style, etc.
-Recommendation system
+* Song classification
+* Lyrics Generation
+* Recommendation system
 
