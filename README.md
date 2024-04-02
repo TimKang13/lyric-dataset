@@ -11,7 +11,9 @@ Process:
 
 Use Mistral API with Langchain for annotation. Example prompt for getting style:
 
-```plaintext
+```python
+template = 
+"""
 Question: {question}
 
 Lyrics: 
@@ -19,6 +21,8 @@ Lyrics:
 
 Answer in ONLY 3 words, separated by comma.
 Never explain. No need to provide an explanation. 
+"""
+question = 'What is the style and formality level of the whole text, in three words separated by comma?'
 ```
 
 ## LLM API Cost
