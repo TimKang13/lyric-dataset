@@ -11,7 +11,7 @@ Process:
 
 Use Mistral API with Langchain for annotation. Example prompt for getting style:
 
-```python
+```{python} 
 template = 
 """
 Question: {question}
@@ -24,10 +24,11 @@ Never explain. No need to provide an explanation.
 """
 question = 'What is the style and formality level of the whole text, in three words separated by comma?'
 ```
+Ensure stable output format and quality with prompting
 
 ## LLM API Cost
-Around 300 input tokens per lyric annotation request.
-14000*350*3  = 14,700,000
+Around 350 input tokens per lyric annotation request.
+14000 x 350 x 3  = 14,700,000
 
 -> around $4 spent with Mistral 7B
 
