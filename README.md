@@ -1,4 +1,6 @@
-# Genius API & Web Scraping to get Lyrics
+# Synthetic Lyrics Dataset with Mistral 7B
+
+## Genius API & Web Scraping to get Lyrics
 
 Process:
 1. Get artist IDs
