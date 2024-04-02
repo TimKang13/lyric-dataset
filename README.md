@@ -28,7 +28,7 @@ Ensure stable output format and quality with prompting
 
 ## LLM API Cost
 Around 350 input tokens per lyric annotation request.
-14000 x 350 x 3  = 14,700,000
+14000 lyrics x 350 Tok x 3 request groups = 14,700,000
 
 -> around $4 spent with Mistral 7B
 
